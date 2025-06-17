@@ -9,7 +9,7 @@ const globalErrorMiddleware = require("./middlewares/global.errormiddleware");
 const app = express();
 const port = process.env.PORT || 4000;
 const corsOptions = {
-  origin: 'https://iadminpanel.netlify.app', // Your frontend origin
+  origin: "*", //  Frontend origin
   credentials: true, // Allow credentials (cookies)
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
