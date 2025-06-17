@@ -11,7 +11,7 @@ const getColor = async (req, res, next) => {
     const colors = await Color.find();
     res
       .status(200)
-      .json(new ApiResponse(200, "Colors fetched successfully", colors));
+      .json(new ApiResponse(200, colors,"Colors fetched successfully"));
   } catch (error) {
     next(error);
   }
