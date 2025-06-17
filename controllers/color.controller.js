@@ -55,10 +55,12 @@ const addColors = async (req, res, next) => {
         : null;
 
     res.status(201).json(
-      new ApiResponse(201, "Colors processed successfully.", {
+      new ApiResponse(201,  {
         added: addedRecord,
         warning,
-      })
+      },
+           "Colors processed successfully.",          
+                     )
     );
   } catch (error) {
     next(error);
