@@ -5,6 +5,7 @@ const productRoute = require("./routes/product.routes");
 const userRoute = require("./routes/user.routes");
 const colorRoutes = require("./routes/color.routes");
 const omsRoutes = require("./routes/omsOrders.routes");
+const omsUloadAndPackRoutes = require("./routes/uploadAndPack.routes");
 const connectDB = require("./src/config/db");
 const globalErrorMiddleware = require("./middlewares/global.errormiddleware");
 const app = express();
@@ -19,7 +20,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 // app.options('*', cors(corsOptions));
 
-app.use(express.json());
+app.use(express.json({ limit: '20mb' }));
+app.use(express.urlencoded({ extended: true, limit: '20mb' }));
 
 // database connection
 connectDB();
@@ -33,6 +35,10 @@ app.use("/api/v1/colors", colorRoutes);
 // oms routes 
 app.use("/api/v1/oms/orders", omsRoutes);
 
+
+// oms upload and get orders routes 
+
+app.use("/api/v1/oms", omsUloadAndPackRoutes);
 
 
 // error middleware 
