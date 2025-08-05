@@ -6,7 +6,9 @@ const userRoute = require("./routes/user.routes");
 const colorRoutes = require("./routes/color.routes");
 const omsRoutes = require("./routes/omsOrders.routes");
 const omsUloadAndPackRoutes = require("./routes/uploadAndPack.routes");
+const userRoutesPackingWithTracking = require("./routes/user.routesForPackingWithTracking");
 const connectDB = require("./src/config/db");
+
 const globalErrorMiddleware = require("./middlewares/global.errormiddleware");
 const app = express();
 const port = process.env.PORT || 4000;
@@ -39,7 +41,7 @@ app.use("/api/v1/oms/orders", omsRoutes);
 // oms upload and get orders routes 
 
 app.use("/api/v1/oms", omsUloadAndPackRoutes);
-
+app.use("/api/v1/packing", userRoutesPackingWithTracking);
 
 // error middleware 
 app.use(globalErrorMiddleware)
