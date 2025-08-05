@@ -17,7 +17,7 @@ const getOrderByShipmentTracker = async (req, res, next) => {
 
         const data = JSON.parse(fs.readFileSync(DATA_FILE_PATH));
 
-        const order = data[0]?.orders?.find(o => o?.shipment_tracker == "`"+shipment);
+        const order = data[0]?.orders?.filter(o => o?.shipment_tracker == "`"+shipment);
 
         if (!order) {
             return res.status(404).json(
@@ -160,5 +160,6 @@ const uploadOrders = async (req, res, next) => {
 // ************************** export all methods ***********************************
 
 module.exports = { getOrderByShipmentTracker, getAllOrders, uploadOrders }
+
 
 
