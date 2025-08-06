@@ -1,0 +1,34 @@
+{
+  "patterns": [
+    {
+      "style_number": "15005",
+      "pattern": "Floral",
+      "style_type": "A-Line",
+      "color": "Red",
+      "style_name": "Evening Gown",
+      "accessory1": "Belt",
+      "wash_care": "Hand Wash",
+      "mrp": "2499"
+    },
+    {
+      "style_number": "15002",
+      "pattern": "Polka Dots",
+      "style_type": "Skater",
+      "color": "Blue",
+      "style_name": "Party Dress",
+      "accessory1": "Scarf",
+      "wash_care": "Machine Wash",
+      "mrp": "1899"
+    },
+    {
+      "style_number": "15006",
+      "pattern": "Floral",
+      "style_type": "A-Line",
+      "color": "Red",
+      "style_name": "Evening Gown",
+      "accessory1": "Belt",
+      "wash_care": "Hand Wash",
+      "mrp": "2499"
+    }
+  ]
+}

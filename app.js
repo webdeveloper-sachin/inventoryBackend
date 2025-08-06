@@ -6,6 +6,7 @@ const userRoute = require("./routes/user.routes");
 const colorRoutes = require("./routes/color.routes");
 const omsRoutes = require("./routes/omsOrders.routes");
 const omsUloadAndPackRoutes = require("./routes/uploadAndPack.routes");
+const cuttingListRoutes = require("./routes/cuttinglistPattern.routes");
 const userRoutesPackingWithTracking = require("./routes/user.routesForPackingWithTracking");
 const connectDB = require("./src/config/db");
 
@@ -42,6 +43,12 @@ app.use("/api/v1/oms/orders", omsRoutes);
 
 app.use("/api/v1/oms", omsUloadAndPackRoutes);
 app.use("/api/v1/packing", userRoutesPackingWithTracking);
+
+
+//  ************************ cutting list routes ******************************
+
+app.use('/api/v1/cutting-list', cuttingListRoutes);
+
 
 // error middleware 
 app.use(globalErrorMiddleware)
