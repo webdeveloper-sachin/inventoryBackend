@@ -1,3 +1,5 @@
+
+\
 const ApiError = require("../utils/ApiError");
 const ApiResponse = require("../utils/ApiResponse");
 const fs = require("fs");
@@ -7,6 +9,33 @@ const DATA_FILE_PATH = path.join(__dirname, 'uploaded_orders.json');
 
 //******************************** */ get order details by shipment_tracker ***************************************
 
+//const getOrderByShipmentTracker = async (req, res, next) => {
+//     try {
+//         const { shipment } = req.params;
+
+//         if (!shipment) {
+//             return next(new ApiError(409, "shipment_tracker param is required"));
+//         }
+
+//         const data = JSON.parse(fs.readFileSync(DATA_FILE_PATH));
+
+//         const order = data[0]?.orders?.filter(o => o?.shipment_tracker == "`" + shipment || o?.invoice_id == shipment );
+
+//         if (!order) {
+//             return res.status(404).json(
+//                 new ApiResponse(404, null, "Order not found")
+//             );
+//         }
+
+//         return res.status(200).json(
+//             new ApiResponse(200, order, "Order fetched successfully")
+//         );
+
+//     } catch (error) {
+//         next(error);
+//     }
+// };
+
 const getOrderByShipmentTracker = async (req, res, next) => {
     try {
         const { shipment } = req.params;
@@ -15,18 +44,22 @@ const getOrderByShipmentTracker = async (req, res, next) => {
             return next(new ApiError(409, "shipment_tracker param is required"));
         }
 
-        const data = JSON.parse(fs.readFileSync(DATA_FILE_PATH));
+        const fileContent = fs.readFileSync(DATA_FILE_PATH, "utf-8");
+        const data = JSON.parse(fileContent);
+        const orders = data?.[0]?.orders || [];
 
-        const order = data[0]?.orders?.filter(o => o?.shipment_tracker == "`" + shipment || o?.invoice_id == shipment );
+        const matchedOrders = orders.filter(({ shipment_tracker, invoice_id }) =>
+            shipment_tracker === `\`${shipment}` || invoice_id === shipment
+        );
 
-        if (!order) {
+        if (!matchedOrders.length) {
             return res.status(404).json(
                 new ApiResponse(404, null, "Order not found")
             );
         }
 
         return res.status(200).json(
-            new ApiResponse(200, order, "Order fetched successfully")
+            new ApiResponse(200, matchedOrders, "Order fetched successfully")
         );
 
     } catch (error) {
@@ -160,5 +193,6 @@ const uploadOrders = async (req, res, next) => {
 // ************************** export all methods ***********************************
 
 module.exports = { getOrderByShipmentTracker, getAllOrders, uploadOrders }
+
 
 
