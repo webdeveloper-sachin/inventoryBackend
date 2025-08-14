@@ -8,6 +8,7 @@ const omsRoutes = require("./routes/omsOrders.routes");
 const omsUloadAndPackRoutes = require("./routes/uploadAndPack.routes");
 const cuttingListRoutes = require("./routes/cuttinglistPattern.routes");
 const userRoutesPackingWithTracking = require("./routes/user.routesForPackingWithTracking");
+const notificationRoute = require("./routes/orderNotifier.routes");
 const connectDB = require("./src/config/db");
 
 const globalErrorMiddleware = require("./middlewares/global.errormiddleware");
@@ -33,6 +34,7 @@ connectDB();
 app.use("/api/product", productRoute);
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/colors", colorRoutes);
+app.use("/api/v1/order", notificationRoute);
 
 
 // oms routes 
