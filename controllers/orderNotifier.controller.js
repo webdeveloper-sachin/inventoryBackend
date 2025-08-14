@@ -21,29 +21,7 @@ const sendNotificationToEmail = async (req, res, next) => {
             }
         });
 
-        // const payload = {
-        //     Channel: "Test",
-        //     TotalOrders: 50,
-        //     FoundInInventory: 20,
-        //     Alter: [{
-        //         "Total Quantity": 2,
-        //         items: [
-        //             { "Style Number": 12022, "Size": "3XL" },
-        //             { "Style Number": 12035, "Size": "2XL" },
-        //             { "Style Number": 16022, "Size": "3XL" },
-        //             { "Style Number": 19102, "Size": "2XL" }
-        //         ]
-        //     }],
-        //     NoFabric: [{
-        //         "Total Quantity": 2,
-        //         items: [
-        //             { "Style Number": 14022, "Size": "4XL" },
-        //             { "Style Number": 18025, "Size": "XL" }
-        //         ]
-        //     }],
-        //     Cutting: 19,
-        //     "Picklist Search By": "Store helper"
-        // };
+      
 
 
 
@@ -165,7 +143,7 @@ const sendNotificationToEmail = async (req, res, next) => {
         const mailOptions = {
             from: `Orders Report <${EMAIL_ADDRESS}>`,
             to: "logistics@qurvii.com",
-            subject: "Daily Orders Summary",
+            subject: `${payload?.Channel} Orders Summary`,
             html: htmlBody
         };
 
@@ -179,3 +157,4 @@ const sendNotificationToEmail = async (req, res, next) => {
 };
 
 module.exports = sendNotificationToEmail;
+
