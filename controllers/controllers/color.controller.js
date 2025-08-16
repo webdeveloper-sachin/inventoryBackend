@@ -3,6 +3,7 @@ const ApiError = require("../utils/ApiError");
 const ApiResponse = require("../utils/ApiResponse");
 
 // ********************************************************************************
+
 // ************************get route for colors **********************************
 // *******************************************************************************
 
@@ -68,3 +69,4 @@ const addColors = async (req, res, next) => {
 };
 
 module.exports = { getColor, addColors };
+
