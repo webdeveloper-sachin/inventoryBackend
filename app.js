@@ -9,6 +9,8 @@ const omsUloadAndPackRoutes = require("./routes/uploadAndPack.routes");
 const cuttingListRoutes = require("./routes/cuttinglistPattern.routes");
 const userRoutesPackingWithTracking = require("./routes/user.routesForPackingWithTracking");
 const notificationRoute = require("./routes/orderNotifier.routes");
+const zeroInventoryRoutes = require("./routes/zeroInventoryy.routes");
+const manifestRoutes = require("./routes/manifest.routes")
 const connectDB = require("./src/config/db");
 
 const globalErrorMiddleware = require("./middlewares/global.errormiddleware");
@@ -50,6 +52,14 @@ app.use("/api/v1/packing", userRoutesPackingWithTracking);
 //  ************************ cutting list routes ******************************
 
 app.use('/api/v1/cutting-list', cuttingListRoutes);
+
+
+// ********************** manifest routes ************************
+app.use("/api/v1/manifest", manifestRoutes);
+
+
+// ***************** zeroinventory routes *******************************
+app.use("/api/v1/zero-inventory", zeroInventoryRoutes);
 
 
 // error middleware 
