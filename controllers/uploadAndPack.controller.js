@@ -49,7 +49,7 @@ const getOrderByShipmentTracker = async (req, res, next) => {
         const orders = data?.[0]?.orders || [];
 
         const matchedOrders = orders.filter(({ shipment_tracker, invoice_id }) =>
-            (shipment_tracker == `\`${shipment}` || invoice_id == shipment) || (shipment_tracker == ${shipment} || invoice_id == shipment)
+            (shipment_tracker == `\`${shipment}` || invoice_id == shipment) 
         );
 
         if (!matchedOrders.length) {
@@ -192,5 +192,6 @@ const uploadOrders = async (req, res, next) => {
 // ************************** export all methods ***********************************
 
 module.exports = { getOrderByShipmentTracker, getAllOrders, uploadOrders }
+
 
 
