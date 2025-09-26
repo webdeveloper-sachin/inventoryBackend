@@ -1,5 +1,5 @@
 const express = require("express");
-const { getManifest, saveManifest, getAllManifest } = require("../controllers/manifest.controller");
+const { getManifest, saveManifest, getAllManifest ,getManifestByShipment} = require("../controllers/manifest.controller");
 const router = express.Router();
 
 router.route("/get").post(getManifest);
@@ -9,3 +9,4 @@ router.route("/").get(getManifestByShipment);
 
 
 module.exports = router;
+
