@@ -142,4 +142,24 @@ const getAllManifest = async (req, res, next) => {
 }
 
 
-module.exports = { saveManifest, getManifest, getAllManifest }
+
+const getManifestByShipment = async (req, res, next) => {
+    const { shipment } = req.query;
+    try {
+        if (!shipment) {
+            return next(new ApiError(409, "shipment is required."));
+        }
+        const shipment_details = await Manifest.find({ tracking_id: `${"`" + String(shipment)}` });
+        if (!shipment_details.length > 0) {
+            return next(new ApiError(404, "Invalid shipment id."));
+        }
+        return res.status(200).json(new ApiResponse(200, shipment_details, "Shipment details fetched successfully."));
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+
+module.exports = { saveManifest, getManifest, getAllManifest ,getManifestByShipment}
