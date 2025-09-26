@@ -149,7 +149,9 @@ const getManifestByShipment = async (req, res, next) => {
         if (!shipment) {
             return next(new ApiError(409, "shipment is required."));
         }
-        const shipment_details = await Manifest.find({ tracking_id: `${"`" + String(shipment)}` });
+        const shipment_details = await Manifest.find({
+            $or: [{ tracking_id: `${"`" + String(shipment)}` }, { tracking_id: String(shipment) }]
+        })
         if (!shipment_details.length > 0) {
             return next(new ApiError(404, "Invalid shipment id."));
         }
@@ -162,4 +164,6 @@ const getManifestByShipment = async (req, res, next) => {
 
 
 
+
 module.exports = { saveManifest, getManifest, getAllManifest ,getManifestByShipment}
+
