@@ -6,36 +6,68 @@ const ApiResponse = require("../utils/ApiResponse.js");
 
 // ****************** fabric number creation  **********************
 
+// const addFabricNumbers = async (req, res, next) => {
+//     try {
+//         const payload = req.body;
+//         if (!Array.isArray(payload) || payload.length === 0) {
+//             return next(new ApiError(400, "payload must be non-empty array"));
+//         }
+//         //  **************** mapping all incoming fabric numbers *********************
+//         const incommingFabricNumber = payload.map((fab) => fab.fabricNumber);
+
+//         // ************** check existing fabric numbers *****************************
+//         const existing = await ZeroInventory.find({
+//             fabricNumber: { $in: incommingFabricNumber }
+//         }).select("fabricNumber");
+
+//         const existingNumbers = existing.map((e) => e.fabricNumber);
+
+//         // ****************** filter out existing fabric number from database *****************
+//         const uniqueFabricNumbers = payload.filter((f) => !existingNumbers.includes(f.fabricNumber));
+
+
+//         if (uniqueFabricNumbers.length === 0) {
+//             return next(new ApiError(400, "All fabric numbers already exists"));
+//         }
+//         const createdFabricNumbers = await ZeroInventory.insertMany(uniqueFabricNumbers);
+//         return res.status(201).json(new ApiResponse(201, createdFabricNumbers, `${createdFabricNumbers.length} fabric numbers created successfully.`));
+
+//     } catch (error) {
+//         next(error);
+//     }
+// }
 const addFabricNumbers = async (req, res, next) => {
     try {
         const payload = req.body;
         if (!Array.isArray(payload) || payload.length === 0) {
-            return next(new ApiError(400, "paload must be non-empty array"));
+            return next(new ApiError(400, "payload must be non-empty array"));
         }
-        //  **************** mapping all incoming fabric numbers *********************
-        const incommingFabricNumber = payload.map((fab) => fab.fabricNumber);
 
-        // ************** check existing fabric numbers *****************************
-        const existing = await ZeroInventory.find({
-            fabricNumber: { $in: incommingFabricNumber }
-        }).select("fabricNumber");
+        // *************** prepare bulk operations ******************
+        const bulkOps = payload.map((fab) => ({
+            updateOne: {
+                filter: { fabricNumber: fab.fabricNumber }, // check by fabricNumber
+                update: { $set: fab }, // update with new data
+                upsert: true // if not exists → insert
+            }
+        }));
 
-        const existingNumbers = existing.map((e) => e.fabricNumber);
+        // *************** execute bulk operations ******************
+        const result = await ZeroInventory.bulkWrite(bulkOps);
 
-        // ****************** filter out existing fabric number from database *****************
-        const uniqueFabricNumbers = payload.filter((f) => !existingNumbers.includes(f.fabricNumber));
-
-
-        if (uniqueFabricNumbers.length === 0) {
-            return next(new ApiError(400, "All fabric numbers already exists"));
-        }
-        const createdFabricNumbers = await ZeroInventory.insertMany(uniqueFabricNumbers);
-        return res.status(201).json(new ApiResponse(201, createdFabricNumbers, `${createdFabricNumbers.length} fabric numbers created successfully.`));
+        return res.status(200).json(
+            new ApiResponse(
+                200,
+                result,
+                `${result.upsertedCount} fabric numbers added, ${result.modifiedCount} updated successfully.`
+            )
+        );
 
     } catch (error) {
         next(error);
     }
-}
+};
+
 
 
 // ******************** updating fabric number *********************
